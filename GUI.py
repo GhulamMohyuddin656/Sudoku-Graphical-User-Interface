@@ -272,7 +272,8 @@ class GameScene:
         if sudoku_grid is None:
             messagebox.showerror("Error", "Puzzle file not found")
             return
-        self.reset_grid()  # clears everything first
+        self.reset_grid()
+        self.root.update_idletasks()
         for r in range(9):
             for c in range(9):
                 value = sudoku_grid[r][c]
@@ -286,6 +287,10 @@ class GameScene:
                         disabledforeground="black",
                         state="disabled"
                     )
+        self.domains,self.assignment,self.constraints=grid.Setup_CSP(sudoku_grid)
+        if self.mode=="User":
+            self.solve_puzzle()        
+        print(f"Loading {self.level_var.get()}_puzzle{self.puzzle_num_var.get()}")
 
     def solve_puzzle(self):
         self.complexity_label.config(text="solving...",fg="orange")
@@ -315,16 +320,20 @@ class GameScene:
             "Please check if the initial numbers follow Sudoku rules!"
             )
     def reset_grid(self):
+        self.solution = None
+        self.complexity_label.config(text="Complexity: O(9^(n²))", fg="blue")
+        
         for cell in self.cells.values():
-            cell.config(state="normal")  # Must be normal to delete text
+            cell.config(state="normal")
             cell.delete(0, tk.END)
-            # Reset colors to default
             cell.config(
-                bg="white", 
-                fg="black", 
+                bg="white",
+                fg="black",
                 disabledforeground="black"
             )
-            
+        
+        self.root.update_idletasks()
+                
             
     def display_solution(self,solution):
         for r in range(9):
