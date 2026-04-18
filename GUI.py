@@ -315,24 +315,28 @@ class GameScene:
             )
     def reset_grid(self):
         for cell in self.cells.values():
-            cell.config(state="normal")
+            cell.config(state="normal")  # Must be normal to delete text
             cell.delete(0, tk.END)
-            cell.config(bg="white",)
-            
-            
-            
-    def display_solution(self,solution):
-        for r in range(9):
-            for c in range(9):
-                cell=self.cells[(r,c)]
-                if cell.get()=="" or cell.get()=="0":
-                    cell.delete(0,tk.END)
-                    cell.insert(0,str(solution[(r,c)]))
-                    cell.config(fg="green",disabledforeground="green",state="disabled")
-                    self.root.update()
-                    time.sleep(0.05)
-                else:
-                    cell.config(fg="black",disabledforeground="black",state="disabled")    
+            # Reset colors to default
+            cell.config(
+                bg="white", 
+                fg="black", 
+                disabledforeground="black"
+            )
+                
+                
+        def display_solution(self,solution):
+            for r in range(9):
+                for c in range(9):
+                    cell=self.cells[(r,c)]
+                    if cell.get()=="" or cell.get()=="0":
+                        cell.delete(0,tk.END)
+                        cell.insert(0,str(solution[(r,c)]))
+                        cell.config(fg="green",disabledforeground="green",state="disabled")
+                        self.root.update()
+                        time.sleep(0.05)
+                    else:
+                        cell.config(fg="black",disabledforeground="black",state="disabled")    
 
 
 
