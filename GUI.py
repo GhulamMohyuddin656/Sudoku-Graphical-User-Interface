@@ -323,20 +323,20 @@ class GameScene:
                 fg="black", 
                 disabledforeground="black"
             )
-                
-                
-        def display_solution(self,solution):
-            for r in range(9):
-                for c in range(9):
-                    cell=self.cells[(r,c)]
-                    if cell.get()=="" or cell.get()=="0":
-                        cell.delete(0,tk.END)
-                        cell.insert(0,str(solution[(r,c)]))
-                        cell.config(fg="green",disabledforeground="green",state="disabled")
-                        self.root.update()
-                        time.sleep(0.05)
-                    else:
-                        cell.config(fg="black",disabledforeground="black",state="disabled")    
+            
+            
+    def display_solution(self,solution):
+        for r in range(9):
+            for c in range(9):
+                cell=self.cells[(r,c)]
+                if cell.get()=="" or cell.get()=="0":
+                    cell.delete(0,tk.END)
+                    cell.insert(0,str(solution[(r,c)]))
+                    cell.config(fg="green",disabledforeground="green",state="disabled")
+                    self.root.update()
+                    time.sleep(0.05)
+                else:
+                    cell.config(fg="black",disabledforeground="black",state="disabled")    
 
 
 
