@@ -268,23 +268,24 @@ class GameScene:
         else:
             messagebox.showwarning("Hint", "Please click an empty cell first!")
     def load_selected_puzzle(self):
-        sudoku_grid=grid.read_sudoku(self.level_var.get(),self.puzzle_num_var.get())
+        sudoku_grid = grid.read_sudoku(self.level_var.get(), self.puzzle_num_var.get())
         if sudoku_grid is None:
             messagebox.showerror("Error", "Puzzle file not found")
             return
-        self.reset_grid()
+        self.reset_grid()  # clears everything first
         for r in range(9):
             for c in range(9):
-                value=sudoku_grid[r][c]
-                cell=self.cells[(r,c)]
-                if value!=0:
-                    cell.insert(0,str(value))
-                    cell.config(fg="black",disabledforeground="black",state="disabled")
-        self.domains,self.assignment,self.constraints=grid.Setup_CSP(sudoku_grid)
-        if self.mode=="User":
-            self.solve_puzzle()        
-        print(f"Loading {self.level_var.get()}_puzzle{self.puzzle_num_var.get()}")
-
+                value = sudoku_grid[r][c]
+                cell = self.cells[(r, c)]
+                if value != 0:
+                    cell.config(state="normal")
+                    cell.delete(0, tk.END)     
+                    cell.insert(0, str(value))
+                    cell.config(
+                        fg="black",
+                        disabledforeground="black",
+                        state="disabled"
+                    )
 
     def solve_puzzle(self):
         self.complexity_label.config(text="solving...",fg="orange")
@@ -338,9 +339,3 @@ class GameScene:
                 else:
                     cell.config(fg="black",disabledforeground="black",state="disabled")    
 
-
-
-#if __name__ == "__main__":   
-root=tk.Tk()
-app=SudokuApp(root)
-root.mainloop()
